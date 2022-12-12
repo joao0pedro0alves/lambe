@@ -14,10 +14,10 @@ import {
     Philosopher_400Regular_Italic,
 } from "@expo-google-fonts/philosopher"
 
-import {THEME} from "./src/theme"
-
-import {Home} from "./src/screens/Home"
+import {Routes} from "./src/routes"
 import {Loading} from "./src/components/Loading"
+
+import {THEME} from "./src/theme"
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -38,7 +38,7 @@ export default function App() {
                     translucent
                 />
 
-                {fontsLoaded ? <Home /> : <Loading />}
+                {fontsLoaded ? <Routes /> : <Loading />}
             </View>
         </SafeAreaProvider>
     )

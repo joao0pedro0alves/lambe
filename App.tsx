@@ -33,7 +33,7 @@ export default function App() {
         <SafeAreaProvider>
             <View style={styles.container}>
                 <StatusBar
-                    barStyle="light-content"
+                    barStyle="dark-content"
                     backgroundColor="transparent"
                     translucent
                 />

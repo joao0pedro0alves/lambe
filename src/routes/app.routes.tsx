@@ -1,7 +1,8 @@
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
-import {FontAwesome} from '@expo/vector-icons'
+import {FontAwesome} from "@expo/vector-icons"
 
 import {Home} from "../screens/Home"
+import {AddPhoto} from "../screens/AddPhoto"
 
 const {Navigator, Screen} = createBottomTabNavigator()
 
@@ -14,46 +15,46 @@ export function AppRoutes() {
                 tabBarShowLabel: false,
             }}
         >
-            <Screen 
-                name="home" 
+            <Screen
+                name="home"
                 component={Home}
                 options={{
-                    title: 'Feed',
+                    title: "Feed",
                     tabBarIcon: (props) => (
-                        <FontAwesome 
-                            name='home'
+                        <FontAwesome
+                            name="home"
                             size={props.size}
                             color={props.color}
                         />
-                    )
+                    ),
                 }}
             />
-            <Screen 
-                name="add" 
-                component={Home}
+            <Screen
+                name="add"
+                component={AddPhoto}
                 options={{
-                    title: 'Add Picture',
+                    title: "Add Picture",
                     tabBarIcon: (props) => (
-                        <FontAwesome 
-                            name='camera'
+                        <FontAwesome
+                            name="camera"
                             size={props.size}
                             color={props.color}
                         />
-                    )
+                    ),
                 }}
             />
-            <Screen 
-                name="profile" 
+            <Screen
+                name="profile"
                 component={Home}
                 options={{
-                    title: 'Profile',
+                    title: "Profile",
                     tabBarIcon: (props) => (
-                        <FontAwesome 
-                            name='user'
+                        <FontAwesome
+                            name="user"
                             size={props.size}
                             color={props.color}
                         />
-                    )
+                    ),
                 }}
             />
         </Navigator>

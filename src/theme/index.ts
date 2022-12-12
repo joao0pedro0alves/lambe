@@ -6,8 +6,9 @@ const DEFAULT_THEME = {
         BACKGROUND_900: "#121214",
         BACKGROUND_800: "#18181B",
         BACKGROUND_700: "#333333",
-        BACKGROUND_600: "#555555",
+        BACKGROUND_600: "#D4D4D8",
         BACKGROUND_400: "#F9FAFC",
+        BACKGROUND_300: "#F5FCFF",
         BACKGROUND_PAPER: "#FFFFFF",
 
         TEXT: "#FFFFFF",
@@ -51,6 +52,13 @@ const DEFAULT_THEME = {
         MD: 16,
         LG: 24,
         XL: 32,
+    },
+
+    SPACING: {
+        XS: 2,
+        SM: 4,
+        MD: 8,
+        LG: 16
     },
 }
 

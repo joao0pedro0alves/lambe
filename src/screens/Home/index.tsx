@@ -7,12 +7,13 @@ import {Feed} from "../../components/Feed"
 import {styles} from "./styles"
 
 export function Home() {
-    const {posts} = useFeed()
+    const {posts, isLoading} = useFeed()
 
     return (
         <SafeAreaView style={styles.container}>
             <Header />
-            <Feed 
+            <Feed
+                isLoading={isLoading}
                 posts={posts}
             />
         </SafeAreaView>

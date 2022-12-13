@@ -1,13 +1,26 @@
-import {View, FlatList} from "react-native"
+import {View, FlatList, ActivityIndicator} from "react-native"
 import {Post, IPost} from "../Post"
 
 import {styles} from "./styles"
+import {THEME} from "../../theme"
 
 interface FeedProps {
+    isLoading: boolean
     posts: IPost[]
 }
 
-export function Feed({posts}: FeedProps) {
+export function Feed({posts, isLoading}: FeedProps) {
+    if (isLoading) {
+        return (
+            <>
+                <ActivityIndicator
+                    color={THEME.COLORS.PRIMARY}
+                    size={THEME.FONT_SIZE.LG}
+                />
+            </>
+        )
+    }
+
     return (
         <FlatList
             data={posts}

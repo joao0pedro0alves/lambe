@@ -3,7 +3,9 @@ import {FontAwesome} from "@expo/vector-icons"
 
 import {Home} from "../screens/Home"
 import {AddPhoto} from "../screens/AddPhoto"
-import {Profile} from "../screens/Profile"
+import {ProfileRoutes} from "./profile.routes"
+
+import {THEME} from "../theme"
 
 const {Navigator, Screen} = createBottomTabNavigator()
 
@@ -14,6 +16,8 @@ export function AppRoutes() {
             screenOptions={{
                 headerShown: false,
                 tabBarShowLabel: false,
+                tabBarHideOnKeyboard: true,
+                tabBarActiveTintColor: THEME.COLORS.PRIMARY,
             }}
         >
             <Screen
@@ -46,7 +50,7 @@ export function AppRoutes() {
             />
             <Screen
                 name="profile"
-                component={Profile}
+                component={ProfileRoutes}
                 options={{
                     title: "Profile",
                     tabBarIcon: (props) => (

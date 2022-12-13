@@ -4,6 +4,10 @@ export declare global {
             home: undefined
             add: undefined
             profile: undefined
+            me: undefined
+            
+            signin: undefined
+            signup: undefined
         }
     }
 }

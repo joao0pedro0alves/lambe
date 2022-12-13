@@ -58,9 +58,10 @@ export function AuthProvider({children}: AuthProviderProps) {
     }, [])
 
     const signIn = useCallback(async (credencials: Credencials) => {
+        
         setCurrentUser({
-            name: 'João',
-            email: credencials.email
+            name: 'João Pedro',
+            email: 'joao.alves1032003@gmail.com'
         })
 
         // setLoading(true)

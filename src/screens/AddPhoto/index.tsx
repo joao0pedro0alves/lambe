@@ -1,25 +1,30 @@
 import {useState} from "react"
 import {SafeAreaView} from "react-native-safe-area-context"
+import {useNavigation} from "@react-navigation/native"
 import {
     View,
     Text,
     TouchableOpacity,
     TextInput,
     Image,
-    Alert,
+    Alert
 } from "react-native"
 import * as ImagePicker from "expo-image-picker"
 
+import {IPostImage} from "../../contexts/Feed"
+import {useAuth} from "../../hooks/useAuth"
+import {useFeed} from "../../hooks/useFeed"
+
 import {styles} from "./styles"
 
-type Result = {
-    uri: string
-    base64?: string | null
-}
-
 export function AddPhoto() {
-    const [result, setResult] = useState<Result | null>(null)
+    const [image, setImage] = useState<IPostImage | null>(null)
     const [comment, setComment] = useState("")
+
+    const {navigate} = useNavigation()
+
+    const {currentUser, isAuthenticated} = useAuth()
+    const {createPost} = useFeed()
 
     async function pickImage() {
         // No permissions request is necessary for launching the image library
@@ -31,7 +36,7 @@ export function AddPhoto() {
         })
 
         if (!result.canceled) {
-            setResult({
+            setImage({
                 uri: result.assets[0].uri,
                 base64: result.assets[0].base64,
             })
@@ -39,7 +44,26 @@ export function AddPhoto() {
     }
 
     async function savePhoto() {
-        Alert.alert("Imagem salva com sucesso", comment)
+        if (image && currentUser) {
+            
+            await createPost({
+                image: image,
+                comments: [
+                    {
+                        content: comment,
+                        author: {
+                            email: currentUser.email,
+                            nickname: currentUser.name,
+                        },
+                    },
+                ],
+            })
+
+            setImage(null)
+            setComment('')
+
+            navigate('home')
+        }
     }
 
     return (
@@ -51,7 +75,7 @@ export function AddPhoto() {
                     <Image
                         style={styles.image}
                         source={{
-                            uri: result?.uri,
+                            uri: image?.uri,
                         }}
                     />
                 </View>
@@ -68,9 +92,10 @@ export function AddPhoto() {
                 >
                     <TextInput
                         placeholder="Algum comentário para a foto?"
-                        style={styles.input}
                         value={comment}
                         onChangeText={setComment}
+                        editable={isAuthenticated}
+                        style={styles.input}
                     />
 
                     <TouchableOpacity

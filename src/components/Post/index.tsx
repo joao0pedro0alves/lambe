@@ -30,7 +30,7 @@ export function Post({data}: PostProps) {
             />
 
             <Comments data={data.comments} />
-            <AddComment />
+            <AddComment postId={data.id} />
         </View>
     )
 }

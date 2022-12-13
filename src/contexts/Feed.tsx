@@ -1,22 +1,26 @@
 import {createContext, useState} from "react"
+import {uniqueId} from "lodash"
+
+import {IComment} from "../components/Comments"
 import {IPost} from "../components/Post"
 
 import {samplePosts} from '../mock/samplePosts'
+import {useAuth} from "../hooks/useAuth"
 
-interface PostData {
-    content: string
-    image: {
-        uri: string
-        base64: string
-    }
+export interface IPostImage {
+    uri: string
+    base64?: string | null
+}
+export interface IPostData {
+    image: IPostImage
+    comments?: IComment[]
 }
 
 interface FeedContextData {
     posts: IPost[]
 
-    createPost: (postData: PostData) => Promise<void>
-    updatePost: (id: string, postData: PostData) => Promise<void>
-    deletePost: (id: string) => Promise<void>
+    createPost: (postData: IPostData) => Promise<void>
+    addPostComment: (postId: string, comment: IComment) => Promise<void>
 }
 
 interface FeedProviderProps {
@@ -28,16 +32,34 @@ export const FeedContext = createContext<FeedContextData>({} as FeedContextData)
 export function FeedProvider({children}: FeedProviderProps) {
     const [posts, setPosts] = useState<IPost[]>([...samplePosts])
 
-    async function createPost() {
-        setPosts([])
+    const {currentUser} = useAuth()
+
+    async function createPost({image, comments = []}: IPostData) {
+        if (currentUser) {
+
+            const newPost: IPost = {
+                id: uniqueId(),
+                image,
+                comments,
+                author: {
+                    email: currentUser?.email,
+                    nickname: currentUser?.name
+                }
+            }
+    
+            setPosts(previousPosts => previousPosts.concat(newPost))
+        }
+
     }
 
-    async function updatePost() {
-        setPosts([])
+    function _addComment(post: IPost, comment: IComment): IPost {
+        return {...post, comments: post.comments.concat(comment)}
     }
 
-    async function deletePost() {
-        setPosts([])
+    async function addPostComment(postId: string, comment: IComment) {
+        setPosts(previousPosts => previousPosts.map(
+            post => post.id !== postId ? post : _addComment(post, comment) 
+        ))
     }
 
     return (
@@ -45,8 +67,7 @@ export function FeedProvider({children}: FeedProviderProps) {
             value={{
                 posts,
                 createPost,
-                updatePost,
-                deletePost
+                addPostComment
             }}
         >
             {children}

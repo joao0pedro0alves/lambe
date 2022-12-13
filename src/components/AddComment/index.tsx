@@ -4,20 +4,42 @@ import {
     Text,
     TextInput,
     TouchableWithoutFeedback as TWF,
-    Alert,
 } from "react-native"
 import {FontAwesome} from "@expo/vector-icons"
+
+import {useAuth} from "../../hooks/useAuth"
+import {useFeed} from "../../hooks/useFeed"
 
 import {styles} from "./styles"
 import {THEME} from "../../theme"
 
-export function AddComment() {
-    const [comment, setComment] = useState("")
+interface AddCommentProps {
+    postId: string
+}
+
+export function AddComment({postId}: AddCommentProps) {
+    const {currentUser, isAuthenticated} = useAuth()
+    const {addPostComment} = useFeed()
+
+    const [content, setContent] = useState("")
     const [isEditing, setIsEditing] = useState(false)
 
     function handleAddComment() {
-        Alert.alert("Comentário adicionado", comment)
+        if (currentUser) {
+            addPostComment(postId, {
+                content,
+                author: {
+                    email: currentUser?.email,
+                    nickname: currentUser?.name,
+                },
+            })
+        }
+
+        setContent("")
+        setIsEditing(false)
     }
+
+    if (!isAuthenticated) return null
 
     return (
         <View style={styles.container}>
@@ -27,14 +49,12 @@ export function AddComment() {
                         autoFocus
                         placeholder="Descreva seu comentário..."
                         style={styles.input}
-                        value={comment}
-                        onChangeText={setComment}
+                        value={content}
+                        onChangeText={setContent}
                         onSubmitEditing={handleAddComment}
                     />
 
-                    <TWF
-                        onPress={() => setIsEditing(false)}
-                    >
+                    <TWF onPress={() => setIsEditing(false)}>
                         <FontAwesome name="times" size={THEME.FONT_SIZE.MD} />
                     </TWF>
                 </View>

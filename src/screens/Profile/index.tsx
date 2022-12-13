@@ -1,35 +1,47 @@
+import {useCallback} from "react"
 import {SafeAreaView} from "react-native-safe-area-context"
 import {Text, TouchableOpacity} from "react-native"
-import {useNavigation} from "@react-navigation/native"
+import {useNavigation, useFocusEffect} from "@react-navigation/native"
 import {FontAwesome} from "@expo/vector-icons"
 import {Gravatar} from "react-native-gravatar"
 
+import {useAuth} from "../../hooks/useAuth"
+
 import {styles} from "./styles"
 import {THEME} from "../../theme"
-import { useAuth } from "../../hooks/useAuth"
 
 export function Profile() {
     const {navigate} = useNavigation()
 
-    const {signOut} = useAuth()
-    
+    const {currentUser, signOut} = useAuth()
+
     async function handleSignOut() {
         await signOut()
         navigate("home")
     }
+
+    useFocusEffect(
+        useCallback(() => {
+
+            if (currentUser === null) {
+                navigate("signin")
+            }
+            
+        }, [currentUser])
+    )
 
     return (
         <SafeAreaView style={styles.container}>
             <Gravatar
                 style={styles.avatar}
                 options={{
-                    email: "joao.alves1032003@gmail.com",
+                    email: currentUser?.email,
                     secure: true,
                 }}
             />
 
-            <Text style={styles.nickname}>João Pedro</Text>
-            <Text style={styles.email}>joao.alves1032003@gmail.com</Text>
+            <Text style={styles.nickname}>{currentUser?.name}</Text>
+            <Text style={styles.email}>{currentUser?.email}</Text>
 
             <TouchableOpacity
                 style={styles.button}

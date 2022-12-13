@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import {USER_KEY, TOKEN_KEY} from "../utils/storage-keys"
 import {api} from "../services/api"
-import {apiEndPoints} from "../constants/apiEndPoints"
+// import {apiEndPoints} from "../constants/apiEndPoints"
 // import {alertMessage} from "../services/alertMessage"
 
 interface Credencials {

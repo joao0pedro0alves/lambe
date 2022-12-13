@@ -15,6 +15,8 @@ import {
 } from "@expo-google-fonts/philosopher"
 
 import {AuthProvider} from './src/contexts/Auth'
+import {FeedProvider} from "./src/contexts/Feed"
+
 import {Routes} from "./src/routes"
 import {Loading} from "./src/components/Loading"
 
@@ -40,7 +42,9 @@ export default function App() {
                 />
 
                 <AuthProvider>
-                    {fontsLoaded ? <Routes /> : <Loading />}
+                    <FeedProvider>
+                        {fontsLoaded ? <Routes /> : <Loading />}
+                    </FeedProvider>
                 </AuthProvider>
             </View>
         </SafeAreaProvider>

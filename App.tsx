@@ -14,6 +14,7 @@ import {
     Philosopher_400Regular_Italic,
 } from "@expo-google-fonts/philosopher"
 
+import {AuthProvider} from './src/contexts/Auth'
 import {Routes} from "./src/routes"
 import {Loading} from "./src/components/Loading"
 
@@ -38,7 +39,9 @@ export default function App() {
                     translucent
                 />
 
-                {fontsLoaded ? <Routes /> : <Loading />}
+                <AuthProvider>
+                    {fontsLoaded ? <Routes /> : <Loading />}
+                </AuthProvider>
             </View>
         </SafeAreaProvider>
     )
